@@ -8,5 +8,6 @@ typedef struct Node {
 
 void insert(Node **head, int data);
 void del(Node **head, int data);
+void printList(Node *head);
 
 #endif

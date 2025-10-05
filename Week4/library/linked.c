@@ -1,4 +1,5 @@
 #include "linked.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 void insert(Node **head, int data) {
@@ -38,4 +39,18 @@ void del(Node **head, int data) {
   prev->next = curr->next;
   free(curr);
   return;
+}
+
+void printList(Node *head) {
+  if (head == NULL) {
+    printf("Empty list");
+    return;
+  }
+  Node *temp = head;
+  printf("\n");
+  while (temp != NULL) {
+    printf("%d->", temp->data);
+    temp = temp->next;
+  }
+  printf("NULL");
 }
