@@ -1,39 +1,31 @@
 #include <stdio.h>
 
 void merge(int arr[], int left, int mid, int right) {
-  int s1 = mid - left + 1;
-  int s2 = right - mid;
-  int L[s1];
-  int R[s2];
-  // Add elements from left to mid to left array
-  for (int i = 0; i < s1; i++) {
-    L[i] = arr[left + i];
-  }
-  for (int j = 0; j < s2; j++) {
-    R[j] = arr[mid + 1 + j];
-  }
-  int i = 0;
-  int j = 0;
-  int k = left; // Merging from arr[left till right]
-  while (i < s1 && j < s2) {
-    if (L[i] >= R[j]) {
-      arr[k] = L[i];
-      i++;
+  int i = left;    // start of left half
+  int j = mid + 1; // start of right half
+  int temp[] = {};
+  int k = 0;
+  while (i <= mid && j <= right) {
+    if (arr[i] <= arr[j]) {
+      temp[k++] = arr[i++];
     } else {
-      arr[k] = R[j];
+      temp[k++] = arr[j++];
       j++;
     }
-    k++;
   }
-  while (i < s1) {
-    arr[k] = L[i];
-    k++;
-    i++;
+  // Push back remaining elements
+  while (i <= mid) {
+    temp[k++] = arr[i++];
   }
-  while (j < s2) {
-    arr[k] = R[j];
-    k++;
-    j++;
+  while (j <= right) {
+    temp[k++] = arr[j++];
+  }
+  int size = sizeof(temp) / sizeof(temp[0]);
+  // Till here we have sorted the array[left...right] range
+  // Here we need to add back those elements within the left to right range
+  // Hence we need to add left as the offset
+  for (int t = 0; t < size; t++) {
+    arr[t + left] = temp[t];
   }
 }
 
