@@ -1,0 +1,6 @@
+BasedOnStyle: LLVM
+CommentPragmas: '^'
+BreakBeforeBraces: Allman
+AlignTrailingComments: false
+AllowShortBlocksOnASingleLine: false
+
