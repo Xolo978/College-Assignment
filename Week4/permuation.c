@@ -8,9 +8,9 @@ void swap(char *s, int l, int r) {
 
 void permute(char *s, int l, int r) {
   if (l >= r) {
-    printf("%s", s);
+    printf("%s\n", s);
   }
-  for (int i = 0; i <= r; i++) {
+  for (int i = l; i <= r; i++) {
     swap(s, l, i);
     permute(s, l + 1, r);
     swap(s, l, i);
@@ -18,6 +18,6 @@ void permute(char *s, int l, int r) {
 }
 
 int main() {
-  char s[] = "ABCD";
-  permute(s, 0, 3);
+  char s[] = "ABC";
+  permute(s, 0, 2);
 }
