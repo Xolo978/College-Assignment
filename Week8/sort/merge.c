@@ -10,7 +10,6 @@ void merge(int arr[], int left, int mid, int right) {
       temp[k++] = arr[i++];
     } else {
       temp[k++] = arr[j++];
-      j++;
     }
   }
   // Push back remaining elements

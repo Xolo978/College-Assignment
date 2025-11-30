@@ -8,7 +8,7 @@ typedef struct Node
   struct Node *right;
 } Node;
 
-struct Node *create(int data)
+Node *create(int data)
 {
   struct Node *new = (Node *)malloc(sizeof(Node));
   new->data = data;
@@ -99,8 +99,9 @@ Node *deleteNode(Node *root, int key)
     else if (root->left == NULL)
     {
       Node *temp = root->right;
+      //Replace the node with its child and free the child
       root = root->right;
-      free(root);
+      free(temp);
       return root;
     }
 
@@ -108,7 +109,7 @@ Node *deleteNode(Node *root, int key)
     {
       Node *temp = root->left;
       root = root->left;
-      free(root);
+      free(temp);
       return root;
     }
     else
@@ -117,7 +118,7 @@ Node *deleteNode(Node *root, int key)
       Node *min = findMin(root->right);
       //We replace the found data with the min of the right trr
       root->data = min->data;
-      //We delete the one we found from the right subtree
+      //We delete the min data(duplicate) from the right subtree
       root->right = deleteNode(root->right, min->data);
     }
   }

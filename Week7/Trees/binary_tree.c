@@ -98,7 +98,18 @@ int main()
   root->right = create(3);
   root->left->left = create(4);
   root->right->left = create(7);
+  printf("Preorder: \n");
   preorder(root);
+  printf("\n");
+
+  printf("Inorder: \n");
+  inorder(root);
+  printf("\n");
+
+  printf("Postorder: \n");
+  postorder(root);
+  printf("\n");
+
   printf("\n");
   printf("Height is %d\n", height(root));
   printf("Number of leaf nodes are %d\n", leafNodes(root));
