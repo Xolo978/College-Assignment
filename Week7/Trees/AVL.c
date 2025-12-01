@@ -36,6 +36,20 @@ Node *create(int data)
   return new;
 }
 
+Node *minNode(Node *node)
+{
+  if (node == NULL)
+  {
+    return NULL;
+  }
+  Node *temp = node;
+  while (temp && temp->right != NULL)
+  {
+    temp = temp->right;
+  }
+  return temp;
+}
+
 int balanceFactor(Node *node)
 {
   //Diff btwn height of lsubtreee - rsubtree;
@@ -95,26 +109,90 @@ Node *insert(Node *node, int data)
   //More elements in left means left - right is greater than 1 hence ll case
   if (bf > 1 && data < node->left->data)
   {
-    rightRotate(node);
+    return rightRotate(node);
   }
 
   //RR Case:
   if (bf < -1 && data > node->right->data)
   {
-    leftRotate(node);
+    return leftRotate(node);
   }
 
   //LR Case:
   if (bf > 1 && data > node->left->data)
   {
     node->left = leftRotate(node->left);
-    rightRotate(node);
+    return rightRotate(node);
   }
   //RL Case:
   if (bf < -1 && data < node->right->data)
   {
     node->right = rightRotate(node->right);
-    leftRotate(node);
+    return leftRotate(node);
   }
   return node;
+}
+
+Node *deleteNode(Node *root, int key)
+{
+  if (root == NULL)
+  {
+    return NULL;
+  }
+  if (key < root->data)
+  {
+    root->left = deleteNode(root->left, key);
+  }
+  else if (key > root->data)
+  {
+    root->right = deleteNode(root->right, key);
+  }
+  else
+  {
+    if (root->right == NULL || root->left == NULL)
+    {
+      Node *temp = root->left ? root->left : root->right;
+      if (temp == NULL)
+      {
+        free(temp);
+        root = NULL;
+      }
+      else
+      {
+        root = temp;
+        free(temp);
+      }
+    }
+    else
+    {
+      Node *min = minNode(root->right);
+      root->data = min->data;
+      root->right = deleteNode(root->right, min->data);
+    }
+  }
+  if (root == NULL)
+  {
+    return root;
+  }
+  root->height = 1 + max(getHeight(root->left), getHeight(root->right));
+  int balance = balanceFactor(root);
+  if (balance > 1 && balanceFactor(root->left) >= 0)
+  {
+    return rightRotate(root);
+  }
+  if (balance < -1 && balanceFactor(root->right) <= 0)
+  {
+    return leftRotate(root);
+  }
+  if (balance > 1 && balanceFactor(root->left) < 0)
+  {
+    root->left = leftRotate(root->left);
+    return rightRotate(root);
+  }
+  if (balance < -1 && balanceFactor(root->right) > 0)
+  {
+    root->right = rightRotate(root->right);
+    return rightRotate(root);
+  }
+  return root;
 }

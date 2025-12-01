@@ -1,9 +1,45 @@
 #include <limits.h>
 #include <stdlib.h>
-typedef struct GrapgMatrix {
+#define MAX 100
+
+typedef struct GraphMatrix {
   int matrix[100][100];
   int vertices;
 } GMatrix;
+
+typedef struct Node {
+  int vertex;
+  int weight;
+  struct Node *next;
+} Node;
+
+typedef struct GraphList {
+  Node *head;
+} GList;
+
+GList *list[MAX]; // list[0] would hold all neighbours of vertex 0
+
+void initList(int v) {
+  for (int i = 0; i < v; i++) {
+    list[i] = (GList *)malloc(sizeof(GList));
+    list[i]->head = NULL;
+  }
+}
+
+void addEdgeList(int src, int dest, int weight) {
+  Node *new = (Node *)malloc(sizeof(Node));
+  new->vertex = dest;
+  new->weight = weight;
+  // Insert at head of the list
+  new->next = list[src]->head;
+  list[src]->head = new;
+
+  new->vertex = src;
+  new->weight = weight;
+  // Insert at head of the list
+  new->next = list[dest]->head;
+  list[dest]->head = new;
+}
 
 GMatrix *initGMatrix(int vertices) {
   GMatrix *g = malloc(sizeof(GMatrix));
@@ -26,6 +62,24 @@ int minKey(int key[], int mstSet[], int vertices) {
     }
   }
   return minIndex;
+}
+
+int minKeyList(int v, int key[], int mstSet[]) {}
+
+void primList(int v, int start) {
+  int parent[v];
+  int key[v];
+  int mstSet[v];
+  for (int i = 0; i < v; i++) {
+    key[i] = INT_MAX;
+    parent[i] = -1;
+    mstSet[i] = 0;
+  }
+  // Start usually 0
+  key[start] = 0;
+  for (int count = 0; count < v; count++) {
+    int u = minKeyList(v, key, mstSet);
+  }
 }
 
 void prim(GMatrix *g) {
